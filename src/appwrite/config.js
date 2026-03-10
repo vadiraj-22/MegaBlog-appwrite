@@ -17,12 +17,14 @@ export class Service{
         this.bucket = new Storage(this.client);
     }
 
-    async createPost(title, slug, content, featuredImage, status, userId){
+    async createPost(title, content, featuredImage, status, userId){
         try {
-            return await this.databases.createDocument(
+            console.log('Creating post with data:', { title, content, featuredImage, status, userId })
+            
+            const result = await this.databases.createDocument(
                 conf.appWriteDatabaseId,
                 conf.appWriteCollectionId,
-                slug,
+                ID.unique(),
                 {
                     title,
                     content,
@@ -31,8 +33,12 @@ export class Service{
                     featuredImage,
                 }
             )
+            
+            console.log('Post created successfully:', result)
+            return result
         } catch (error) {
             console.log("Appwrite service :: createPost :: error", error);
+            throw error
         }
     }
 
@@ -99,11 +105,16 @@ export class Service{
 
     async uploadFile(file){
         try {
-            return await this.bucket.createFile(
+            console.log('Uploading file to bucket:', conf.appWriteBucketId, 'File:', file)
+            
+            const result = await this.bucket.createFile(
                 conf.appWriteBucketId,
                 ID.unique(),
                 file
             )
+            
+            console.log('File uploaded successfully:', result)
+            return result
         } catch (error) {
             console.log("Appwrite service :: uploadFile :: error", error);
             return false;
@@ -124,10 +135,20 @@ export class Service{
     }
 
     getFilePreview(fileId){
-        return this.bucket.getFilePreview(
+        if (!fileId) {
+            console.error('getFilePreview: No fileId provided')
+            return null
+        }
+        
+        // Use getFileView instead of getFilePreview to avoid transformation limits on free plan
+        const result = this.bucket.getFileView(
             conf.appWriteBucketId,
             fileId
         )
+        
+        // Convert URL object to string
+        const url = result.toString()
+        return url
     }
 }
 
