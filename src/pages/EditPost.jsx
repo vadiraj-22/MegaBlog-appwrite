@@ -24,9 +24,12 @@ function EditPost() {
   }, [slug, navigate])
   
   return  post ?(
-    <div>
+    <div className='py-8 px-4'>
       <Container>
-        <PostForm post = {post}/>
+        <div className='bg-white rounded-lg shadow-lg p-6 md:p-8'>
+          <h1 className='text-3xl font-bold text-gray-800 mb-6'>Edit Post</h1>
+          <PostForm post={post}/>
+        </div>
       </Container>
     </div>
   ) :null

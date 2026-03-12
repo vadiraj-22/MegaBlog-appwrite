@@ -15,9 +15,12 @@ function AllPosts() {
 
 
     return (
-        <div className='w-full py-8'>
+        <div className='w-full py-8 px-4'>
             <Container>
-                <h1 className='text-3xl font-bold mb-8 text-gray-800'>All Posts</h1>
+                <div className='mb-8'>
+                    <h1 className='text-4xl font-bold text-gray-800 mb-2'>All Posts</h1>
+                    <p className='text-gray-600'>Browse through all available posts</p>
+                </div>
                 <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
                     {posts.map((post) =>(
                         <Postcard key={post.$id} {...post}/>

@@ -33,7 +33,7 @@ export default function Post() {
     };
 
     return post ? (
-        <div className="py-8">
+        <div className="py-8 px-4">
             <Container>
                 <div className="max-w-4xl mx-auto">
                     <div className="w-full mb-6 relative rounded-xl overflow-hidden shadow-lg bg-gray-200">
@@ -46,7 +46,6 @@ export default function Post() {
                                 console.error('File ID:', post.featuredImage)
                                 console.error('Image src:', e.target.src)
                                 console.error('Error event:', e)
-                                // Prevent infinite loop
                                 e.target.onError = null
                                 e.target.style.display = 'none'
                                 e.target.parentElement.innerHTML = '<div class="w-full h-96 flex items-center justify-center text-red-500 text-xl">Image failed to load. Check Appwrite bucket permissions.</div>'
@@ -59,11 +58,11 @@ export default function Post() {
                         {isAuthor && (
                             <div className="absolute right-4 top-4 flex gap-2">
                                 <Link to={`/edit-post/${post.$id}`}>
-                                    <Button bgColor="bg-green-500" className="shadow-lg">
+                                    <Button bgColor="bg-green-600 hover:bg-green-700" className="shadow-lg transition-colors">
                                         Edit
                                     </Button>
                                 </Link>
-                                <Button bgColor="bg-red-500" onClick={deletePost} className="shadow-lg">
+                                <Button bgColor="bg-red-600 hover:bg-red-700" onClick={deletePost} className="shadow-lg transition-colors">
                                     Delete
                                 </Button>
                             </div>
@@ -71,7 +70,7 @@ export default function Post() {
                     </div>
                     <div className="bg-white rounded-xl p-8 shadow-lg">
                         <h1 className="text-4xl font-bold mb-6 text-gray-800">{post.title}</h1>
-                        <div className="prose prose-lg max-w-none">
+                        <div className="prose prose-lg max-w-none text-gray-700">
                             {parse(post.content)}
                         </div>
                     </div>

@@ -71,41 +71,47 @@ export default function PostForm({ post }) {
   }
 
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-      <div className="w-2/3 px-2">
+    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap gap-6">
+      <div className="w-full lg:w-[65%] space-y-6">
         <Input
-          label="Title :"
-          placeholder="Title"
+          label="Title"
+          placeholder="Enter your post title"
           className="mb-4"
           {...register("title", { required: true })}
         />
-        <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
+        <RTE label="Content" name="content" control={control} defaultValue={getValues("content")} />
       </div>
-      <div className="w-1/3 px-2">
-        <Input
-          label="Featured Image :"
-          type="file"
-          className="mb-4"
-          accept="image/png, image/jpg, image/jpeg, image/gif"
-          {...register("image", { required: !post })}
-        />
-        {post && (
-          <div className="w-full mb-4">
-            <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
-              alt={post.title}
-              className="rounded-lg"
-            />
-          </div>
-        )}
+      <div className="w-full lg:w-[calc(35%-1.5rem)] space-y-6">
+        <div>
+          <Input
+            label="Featured Image"
+            type="file"
+            className="mb-4"
+            accept="image/png, image/jpg, image/jpeg, image/gif"
+            {...register("image", { required: !post })}
+          />
+          {post && (
+            <div className="w-full mb-4 mt-4">
+              <img
+                src={appwriteService.getFilePreview(post.featuredImage)}
+                alt={post.title}
+                className="rounded-lg shadow-md w-full object-cover"
+              />
+            </div>
+          )}
+        </div>
         <Select
           options={["active", "inactive"]}
           label="Status"
           className="mb-4"
           {...register("status", { required: true })}
         />
-        <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-          {post ? "Update" : "Submit"}
+        <Button 
+          type="submit" 
+          bgColor={post ? "bg-green-600 hover:bg-green-700" : "bg-blue-600 hover:bg-blue-700"} 
+          className="w-full transition-colors duration-200"
+        >
+          {post ? "Update Post" : "Publish Post"}
         </Button>
       </div>
     </form>
